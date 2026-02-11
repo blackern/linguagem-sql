@@ -1,4 +1,4 @@
-create database if supermercado;
+create database supermercado;
 create table cliente (
 id int not null,
 nome varchar(50) not null,
