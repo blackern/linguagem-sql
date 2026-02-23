@@ -42,7 +42,7 @@ Bancos de dados relacionais seguem uma organização hierárquica:
 
 O SQL se divide em cinco "famílias" funcionais, cada uma com uma responsabilidade distinta sobre o ecossistema de dados.
 
-- **DDL (Linguagem de Definição de Dados):** Usado para definir ou modificar a estrutura do banco de dados (CREATE, ALTER, DROP).
+- **DDL (Linguagem de Definição de Dados):** Usado para definir ou modificar a estrutura do banco de dados (*CREATE*, ALTER, DROP).
 - **DQL (Linguagem de Consulta de Dados):** Usado para recuperar dados do banco de dados (SELECT).
 - **DML (Linguagem de Manipulação de Dados):** Usado para gerenciar dados dentro das tabelas (INSERT, UPDATE, DELETE).
 - **DCL (Linguagem de Controle de Dados):** Usado para gerenciar permissões e controle de acesso. (GRANT, REVOKE).
