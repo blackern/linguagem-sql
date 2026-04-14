@@ -211,3 +211,93 @@ FROM
 **Com Operadores SET:**
 - Permite unificar listas de origens diferentes (ex: Clientes e Funcionários) em uma única coluna.
 - Facilita comparações entre conjuntos de dados para encontrar diferenças ou semelhanças.
+
+# 11. Linguagem SQL - Funções de Linha Única no SQL
+
+Conjuntos de instruções que recebem um ou mais valores de entrada e retornam um valor de saída.
+
+## Quais são suas utilidades e seu processo?
+
+- **Limpeza:** Remover espaços extras ou caracteres indesejados. 
+- **Transformação:** Alterar formatos de data ou converter textos.
+- **Análise:** Realizar cálculos rápidos por linha.
+- **Processo:** Entrada (Valor) -> FUNÇÃO -> Saída (Novo Valor)
+
+## Funções de Texto (String Functions)
+
+**Manipulação:**
+- CONCAT: Une duas ou mais strings (ex: Nome + Sobrenome).
+- UPPER / LOWER: Converte o texto para MAIÚSCULO ou minúsculo.
+- TRIM: Remove espaços em branco no início e no fim.
+- REPLACE: Substitui um caractere ou trecho de texto por outro.
+
+**Extração e Medida:**
+- LEN: Retorna a quantidade de caracteres.
+- LEFT / RIGHT: Extrai caracteres a partir da esquerda ou direita.
+- SUBSTRING: Extrai uma parte específica do texto de qualquer posição.
+
+## Funções de Data e Hora (Date & Time)
+
+**Cálculos:**
+- DATEADD: Adiciona um intervalo (dias, meses, anos) a uma data.
+- DATEDIFF: Calcula a diferença entre duas datas.
+
+**Extração de Partes:**
+- YEAR, MONTH, DAY: Extraem o ano, mês ou dia numérico.
+- DATENAME: Retorna o nome da parte da data (ex: "Janeiro", "Segunda-feira").
+
+**Conversão:**
+- CAST / CONVERT: Alteram o tipo de dado (ex: de Texto para Data).
+- FORMAT: Define como a data será exibida (ex: 'dd/MM/yyyy').
+
+## Tratamento de Valores Nulos (NULL Functions)
+
+Por que tratar nulos? Evitar erros em cálculos e garantir relatórios precisos
+
+**Principais Funções:**
+- ISNULL(valor, substituto): Se o valor for nulo, substitui por outro.
+- COALESCE(v1, v2, ...): Retorna o primeiro valor não nulo de uma lista.
+- NULLIF(v1, v2): Retorna nulo se os dois valores forem iguais.
+- IS NULL: Operador para filtrar registros sem dados.
+
+## Lógica Condicional (CASE Statement)
+
+O que é: Funciona como um "SE... ENTÃO" (IF... THEN) dentro do SQL.
+
+**Aplicações:**
+- Categorização: Se Venda > 1000 então 'Premium'.
+- Padronização: Converter 'Alemanha' para 'DE', 'Brasil' para 'BR'.
+
+**Sintaxe Básica:**
+```sql
+CASE
+    WHEN Condição THEN Resultado
+    ELSE Resultado_Padrão
+END
+```
+
+## Funções Aninhadas (Nested Functions)
+
+Usar uma função como entrada para outra função.
+
+**Exemplo Prático:**
+- LEN(LOWER(LEFT('Maria', 2)))
+- LEFT('Maria', 2) -> 'Ma'
+- LOWER('Ma') -> 'ma'
+- LEN('ma') -> Resultado Final: 2
+
+# 12. Linguagem SQL - Funções de Agregação
+
+As funções de agregação processam um conjunto de valores para retornar um único valor resumido. Elas são essenciais para transformar dados brutos em informações estratégicas.
+
+- **COUNT:** Conta registros.
+- **SUM / AVG:** Soma e média (apenas numéricos).
+- **MAX / MIN:** Valores máximo e mínimo.
+
+# Cláusula GROUP BY (Agrupamento)
+
+A cláusula GROUP BY é utilizada para organizar linhas que possuem valores idênticos em grupos. Ela é quase sempre utilizada em conjunto com as funções de agregação mencionadas acima.
+
+**Condensação de Registros:** A principal função do GROUP BY é reduzir (achatar) múltiplos registros em uma única linha de resumo por grupo.
+
+**Cálculos em Nível de Grupo:** Ao contrário de uma conta simples no banco de dados inteiro, o agrupamento permite realizar Cálculos de Nível de Grupo (ex: calcular o faturamento total por categoria de produto em vez do faturamento total da loja).
