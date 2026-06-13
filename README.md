@@ -301,3 +301,248 @@ A cláusula GROUP BY é utilizada para organizar linhas que possuem valores idê
 **Condensação de Registros:** A principal função do GROUP BY é reduzir (achatar) múltiplos registros em uma única linha de resumo por grupo.
 
 **Cálculos em Nível de Grupo:** Ao contrário de uma conta simples no banco de dados inteiro, o agrupamento permite realizar Cálculos de Nível de Grupo (ex: calcular o faturamento total por categoria de produto em vez do faturamento total da loja).
+
+# 13. Views
+
+Uma **View** é um objeto do banco de dados que funciona como uma tabela virtual. Ela é criada a partir de uma instrução `SELECT` e, normalmente, não armazena os dados fisicamente, apenas exibe o resultado da consulta.
+
+## Benefícios
+
+- Facilita consultas complexas.
+- Restringe o acesso direto às tabelas.
+- Permite reutilizar consultas frequentemente utilizadas.
+- Melhora a organização do banco de dados.
+
+## Exemplo de Criação
+
+```sql
+CREATE VIEW vw_ClientesAtivos AS
+SELECT
+    Id,
+    Nome,
+    Email
+FROM Clientes
+WHERE Ativo = 1;
+```
+
+## Utilização
+
+```sql
+SELECT * FROM vw_ClientesAtivos;
+```
+
+# 14. Functions
+
+As **Functions** são rotinas criadas para executar operações específicas. Elas podem receber parâmetros e obrigatoriamente retornam um valor ou conjunto de registros.
+
+## Principais Características
+
+- Permitem reutilização de código.
+- Possuem retorno obrigatório.
+- Podem ser utilizadas em consultas SQL.
+- Auxiliam na padronização de cálculos e regras.
+
+## Exemplo
+
+```sql
+CREATE FUNCTION fn_CalcularDesconto
+(
+    @Valor DECIMAL(10,2)
+)
+RETURNS DECIMAL(10,2)
+AS
+BEGIN
+    RETURN @Valor * 0.9;
+END;
+```
+
+## Chamada da Function
+
+```sql
+SELECT dbo.fn_CalcularDesconto(1000);
+```
+
+# 15. Stored Procedures
+
+As **Stored Procedures** são procedimentos armazenados diretamente no banco de dados. Elas podem conter uma ou várias instruções SQL que serão executadas quando chamadas.
+
+## Vantagens
+
+- Redução da duplicação de código.
+- Melhor desempenho em determinadas operações.
+- Centralização das regras de negócio.
+- Facilidade de manutenção.
+
+## Exemplo
+
+```sql
+CREATE PROCEDURE sp_ListarClientes
+AS
+BEGIN
+    SELECT *
+    FROM Clientes;
+END;
+```
+
+## Execução
+
+```sql
+EXEC sp_ListarClientes;
+```
+
+# 16. Triggers
+
+As **Triggers** são rotinas executadas automaticamente quando ocorre um evento em uma tabela ou visão.
+
+## Eventos que Podem Disparar uma Trigger
+
+- `INSERT`
+- `UPDATE`
+- `DELETE`
+
+## Casos de Uso
+
+- Registro de auditoria.
+- Criação de logs.
+- Aplicação de regras de negócio.
+- Monitoramento de alterações.
+
+## Exemplo
+
+```sql
+CREATE TRIGGER trg_LogClientes
+ON Clientes
+AFTER INSERT
+AS
+BEGIN
+    PRINT 'Cliente inserido com sucesso';
+END;
+```
+
+# 17. DCL (Data Control Language)
+
+A **DCL** é responsável por administrar permissões e controlar o acesso aos objetos do banco de dados.
+
+## Comandos Mais Utilizados
+
+### GRANT
+
+Concede permissões a usuários ou grupos.
+
+```sql
+GRANT SELECT
+ON Clientes
+TO UsuarioAnalista;
+```
+
+### REVOKE
+
+Remove permissões previamente concedidas.
+
+```sql
+REVOKE SELECT
+ON Clientes
+FROM UsuarioAnalista;
+```
+
+## Finalidade
+
+Garantir que apenas usuários autorizados possam consultar ou modificar determinadas informações.
+
+# 18. TCL (Transaction Control Language)
+
+A **TCL** gerencia transações, permitindo controlar quando alterações devem ser confirmadas ou desfeitas.
+
+## O que é uma Transação?
+
+Uma transação representa um conjunto de operações executadas como uma única unidade lógica. Caso ocorra algum problema, é possível desfazer todas as alterações realizadas.
+
+## Principais Comandos
+
+| Comando | Descrição |
+|----------|----------|
+| BEGIN TRANSACTION | Inicia uma transação |
+| COMMIT | Salva definitivamente as alterações |
+| ROLLBACK | Cancela as alterações realizadas |
+| SAVEPOINT | Cria um ponto de retorno dentro da transação |
+
+## Exemplo de Transação
+
+```sql
+BEGIN TRANSACTION;
+
+UPDATE Contas
+SET Saldo = Saldo - 100
+WHERE Id = 1;
+
+UPDATE Contas
+SET Saldo = Saldo + 100
+WHERE Id = 2;
+
+COMMIT;
+```
+
+## Exemplo Utilizando ROLLBACK
+
+```sql
+BEGIN TRANSACTION;
+
+UPDATE Produtos
+SET Estoque = Estoque - 10
+WHERE Id = 1;
+
+ROLLBACK;
+```
+
+## Relação com o Conceito ACID
+
+As transações garantem as propriedades ACID:
+
+- **Atomicidade:** a operação é executada integralmente ou não é executada.
+- **Consistência:** os dados permanecem válidos após a transação.
+- **Isolamento:** transações simultâneas não interferem entre si.
+- **Durabilidade:** alterações confirmadas permanecem registradas.
+
+# 19. Resumo das Categorias SQL
+
+### DDL (Data Definition Language)
+
+Utilizada para criar, alterar e remover estruturas do banco de dados.
+
+**Principais comandos:** `CREATE`, `ALTER`, `DROP`.
+
+### DML (Data Manipulation Language)
+
+Responsável pela manipulação dos dados armazenados nas tabelas.
+
+**Principais comandos:** `INSERT`, `UPDATE`, `DELETE`.
+
+### DQL (Data Query Language)
+
+Empregada para realizar consultas e recuperar informações do banco de dados.
+
+**Principal comando:** `SELECT`.
+
+### DCL (Data Control Language)
+
+Utilizada para controlar permissões e definir quais usuários podem acessar determinados recursos.
+
+**Principais comandos:** `GRANT`, `REVOKE`.
+
+### TCL (Transaction Control Language)
+
+Responsável pelo gerenciamento de transações, garantindo a integridade dos dados.
+
+**Principais comandos:** `BEGIN TRANSACTION`, `COMMIT`, `ROLLBACK`, `SAVEPOINT`.
+
+# Considerações Finais
+
+- A **DDL** é utilizada para criar e modificar estruturas.
+- A **DML** permite inserir, alterar e excluir dados.
+- A **DQL** é voltada para consultas.
+- A **DCL** controla o acesso aos recursos do banco.
+- A **TCL** assegura a integridade das transações.
+- **Views** simplificam consultas e aumentam a segurança.
+- **Functions** encapsulam cálculos e lógicas reutilizáveis.
+- **Stored Procedures** automatizam processos no banco.
+- **Triggers** executam ações automáticas diante de eventos específicos.
